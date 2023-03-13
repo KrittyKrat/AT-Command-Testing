@@ -1,0 +1,51 @@
+{
+  "devices": [
+    {
+      "router":"RUTX11",
+      "commands": [
+        {
+          "name":"AT+GMR",
+          "expected": "OK"
+        },
+        {
+          "name":"AT+AAAAAA",
+          "expected": "ERROR"
+        },
+        {
+          "name":"ATE1",
+          "expected": "ERROR"
+        },
+        {
+          "name":"ATI",
+          "expected": "OK"
+        },
+        {
+          "name":"AT&V",
+          "expected": "OK"
+        }
+      ]
+    },
+    {
+      "router":"TRM240",
+      "commands": [
+        {
+          "name":"ATE1",
+          "expected": "OK"
+        },
+        {
+          "name":"ATI",
+          "expected": "OK"
+        },
+        {
+          "name":"AT+CMGF=1",
+          "expected": "OK"
+        },
+        {
+          "name":"AT+CMGS=”+37060183633”",
+          "expected": "OK"
+        }
+      ]
+    }
+  ]
+}
+

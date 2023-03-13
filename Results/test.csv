@@ -1,0 +1,7 @@
+Model: EG06-E,Manufacturer: Quectel
+Command,Expected,Result,Pass
+AT+GMR,OK,OK,True
+AT+AAAAAA,ERROR,ERROR,True
+ATE1,ERROR,OK,False
+ATI,OK,OK,True
+AT&V,OK,OK,True
