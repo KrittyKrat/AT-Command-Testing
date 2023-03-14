@@ -2,8 +2,7 @@ from datetime import datetime
 import json
 import csv
 
-def readCommandFile(routerName, jsonFile):
-
+def openJson(jsonFile):
     try:
         file = open(jsonFile)
         data = json.load(file)
@@ -11,9 +10,13 @@ def readCommandFile(routerName, jsonFile):
         print("Failed to open the command file")
         quit()
 
+    return data
+
+def readCommandFile(routerName, jsonFile):
+
+    data = openJson(jsonFile)
     commands = []
     expected = []
-
     connected = False
 
     try:

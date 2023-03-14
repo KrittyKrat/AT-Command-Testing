@@ -24,13 +24,12 @@ def deviceInfoSSH(sc):
     stdin,stdout,stderr=sc.exec_command("gsmctl -mw")
     routerInfo = stdout.read().decode()
 
+    sc.exec_command("/etc/init.d/gsmd stop")
+
     return routerName, routerInfo
 
-def testSSH(sc, commands, exp):
+def testSSH(sc, commands, exp, msg):
     shell = sc.invoke_shell()
-    #shell.send("/etc/init.d/gsmd stop")
-    #time.sleep(0.1)
-    #shell.recv(9999)
     shell.send("socat /dev/tty,raw,echo=0,escape=0x03 /dev/ttyUSB3,raw,setsid,sane,echo=0,nonblock ; stty sane\r")
     time.sleep(0.1)
     rez = shell.recv(9999)
@@ -61,5 +60,6 @@ def testSSH(sc, commands, exp):
         terminal.terminal(commands[i], passedCommands, failedCommands, totalCommands, True)
 
     terminal.terminal("--------", passedCommands, failedCommands, totalCommands, False)
+    sc.exec_command("/etc/init.d/gsmd start")
     sc.close()
     return result, success

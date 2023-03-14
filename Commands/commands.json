@@ -89,7 +89,7 @@
           "expected": "ERROR"
         },
         {
-          "name":"AT+CMGS=\"+37063526337\"",
+          "name":"AT+CMGS=\"+37064577823\"",
           "expected": "OK"
         }
       ]

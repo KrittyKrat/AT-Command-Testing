@@ -16,6 +16,8 @@ def arguments():
     parser.add_argument('--name', type=str, help='Name of the router', required=True)
     parser.add_argument('--file', type=str, help='Name of the command .json file', required=True)
     parser.add_argument('--type', type=str, help='Connection type (ssh/serial)', required=True)
-    parser.add_argument('--ssh', type=str, help='Ssh variables (ip, username, password)', nargs=3)
+    parser.add_argument('--ssh', type=str, help='Ssh variables (ip, username, password)', nargs=3, required=False)
+    parser.add_argument('--serial', type=str, help='Custom serial port (/dev/ttyUSBx)', required=False)
+    parser.add_argument('--msg', type=str, help='Custom message to test send message at command', required=False)
     args = parser.parse_args()
     return args
