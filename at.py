@@ -4,8 +4,8 @@ import importlib
 
 def main():
     args = terminal.arguments()
-    routerName =  args.name
-    connectionType = args.type
+    routerName =  args.name.upper()
+    connectionType = args.type.lower()
     sshVar = args.ssh
     serialVar = args.serial
     jsonFile = args.file

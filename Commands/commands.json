@@ -46,6 +46,14 @@
         {
           "name":"AT+CLCC",
           "expected": "OK"
+        },
+        {
+          "name":"AT+COPS?",
+          "expected": "OK"
+        },
+        {
+          "name":"this is not a command",
+          "expected": "ERROR"
         }
       ]
     },
@@ -54,6 +62,10 @@
       "commands": [
         {
           "name":"ATE1",
+          "expected": "OK"
+        },
+        {
+          "name":"bruh",
           "expected": "OK"
         },
         {

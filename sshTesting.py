@@ -44,10 +44,10 @@ def testSSH(sc, commands, exp, msg):
     totalCommands = len(commands)
 
     terminal.terminal("Current command", "Passed commands", "Failed commands", "All commands", False)
-    shell.settimeout(1)
+    shell.settimeout(5)
 
     for i in range(0, len(commands)):
-        
+        terminal.terminal(commands[i], passedCommands, failedCommands, totalCommands, True)
         try:
             shell.send(commands[i] + "\n")
             time.sleep(0.1)
@@ -57,7 +57,7 @@ def testSSH(sc, commands, exp, msg):
             if(commands[i].startswith("AT+CMGS") or commands[i].startswith("AT+CMGW") or commands[i].startswith("AT+CMSS")):
                 shell.send(msg)
                 shell.send(chr(26))
-                time.sleep(1.5)
+                time.sleep(2)
                 rez = shell.recv(9999).decode().split("\n")
                 rez = list(filter(None, rez))
 
@@ -69,10 +69,13 @@ def testSSH(sc, commands, exp, msg):
                 failedCommands += 1
             
             result.append(rez[len(rez) - 1])
-            terminal.terminal(commands[i], passedCommands, failedCommands, totalCommands, True)
+            
         except:
-            print("\nSsh connection lost")
-            quit()
+            if(exp[i] == "ERROR"):
+                success.append(True)
+            else:
+                success.append(False)
+            result.append("ERROR")
 
     terminal.terminal("--------", passedCommands, failedCommands, totalCommands, False)
     executeCommand(sc, "/etc/init.d/gsmd start")

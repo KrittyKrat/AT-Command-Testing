@@ -16,13 +16,13 @@ sudo systemctl stop ModemManager.service
 #### Program
 First you must connect your desired device to your computer either using an ethernet or serial cable. You can run the program using:
 ```
-python3 at.py [--name] "router name" [--file] "command file location" [--type] "connection type" [--ssh] "ssh variables [--serial] "serial port" [--msg] "message"
+python3 at.py [--name] "router name" [--file] "command file location" [--type] "connection type" [--ssh] "ssh variables [--serial] "serial port, baudrate" [--msg] "message"
 ```
 The router name, file and connection type are mandatory arguments and must be pasted correctly. Ssh variables are optional if you decide to use an ssh type connection and want to set your own variables for the hostname, user and password. Here are a few examples of how to use the program:
 ```
 python3 at.py --name RUTX11 --file Commands/commands.json --type ssh
 python3 at.py --name RUT955 --file /home/stud/testCom.json --type ssh --ssh 192.168.1.1 root admin
-python3 at.py --name TRM240 --file Commands/commands2.json --type serial --serial /dev/ttyUSB2
+python3 at.py --name TRM240 --file Commands/commands2.json --type serial --serial /dev/ttyUSB2 115200
 python3 at.py --name TRM240 --file ccc.json --type serial --msg "This is a test"
 ```
 While running the program you will be able to see live results like the command being tested, total number of commands to be tested, how many commands passed and failed the test.

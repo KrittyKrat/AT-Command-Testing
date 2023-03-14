@@ -9,8 +9,8 @@ def connectSerial(serialVar):
             os.system("sudo chmod 666 /dev/ttyUSB3")
             ser = serial.Serial('/dev/ttyUSB3', 115200, timeout=5)
         else:
-            os.system("sudo chmod 666 " + serialVar)
-            ser = serial.Serial(serialVar, 115200, timeout=5)
+            os.system("sudo chmod 666 " + serialVar[0])
+            ser = serial.Serial(serialVar[0], serialVar[1], timeout=5)
     except:
         print("Could not connect to serial port")
         quit()
@@ -39,11 +39,12 @@ def testSerial(ser, commands, exp, msg):
     passedCommands = 0
     failedCommands = 0
     totalCommands = len(commands)
+    ser.timeout = 5.0
 
     terminal.terminal("Current command", "Passed commands", "Failed commands", "All commands", False)
 
     for i in range(0, len(commands)):
-
+        terminal.terminal(commands[i], passedCommands, failedCommands, totalCommands, True)
         try:
             ser.write(str.encode(commands[i] + "\r"))
             time.sleep(0.1)
@@ -68,11 +69,12 @@ def testSerial(ser, commands, exp, msg):
                         success.append(False)
                         failedCommands += 1
                         break
-
-            terminal.terminal(commands[i], passedCommands, failedCommands, totalCommands, True)
         except:
-            print("\nSerial connection lost")
-            quit()
+            if(exp[i] == "ERROR"):
+                success.append(True)
+            else:
+                success.append(False)
+            result.append("ERROR")
 
     
     ser.close()
