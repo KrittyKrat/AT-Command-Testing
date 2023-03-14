@@ -54,6 +54,10 @@
         {
           "name":"this is not a command",
           "expected": "ERROR"
+        },
+        {
+          "name":"neither is this",
+          "expected": "ERROR"
         }
       ]
     },
@@ -62,10 +66,6 @@
       "commands": [
         {
           "name":"ATE1",
-          "expected": "OK"
-        },
-        {
-          "name":"why do you work",
           "expected": "OK"
         },
         {

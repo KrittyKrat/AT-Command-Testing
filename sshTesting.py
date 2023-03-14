@@ -74,8 +74,10 @@ def testSSH(sc, commands, exp, msg):
             executeCommand(sc, 'ls')
             if(exp[i] == "ERROR"):
                 success.append(True)
+                passedCommands += 1
             else:
                 success.append(False)
+                failedCommands += 1
             result.append("ERROR")
 
     terminal.terminal("--------", passedCommands, failedCommands, totalCommands, False)

@@ -54,8 +54,7 @@ def testSerial(ser, commands, exp, msg):
                 ser.write(str.encode(chr(26)))
                 time.sleep(1)
 
-            ser.readline()
-            print(commands[i])
+            l = ser.readline()
 
             while(True):
                 line = ser.readline().decode().split("\n")[0].strip()
