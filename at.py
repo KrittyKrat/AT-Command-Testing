@@ -10,6 +10,8 @@ def main():
     serialVar = args.serial
     jsonFile = args.file
     msg = args.msg
+    if msg == None:
+        msg = "Test"
     routerNameTest = ""
 
     if connectionType != "ssh" and connectionType != "serial":

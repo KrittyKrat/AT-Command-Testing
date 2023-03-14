@@ -45,6 +45,7 @@ def testSerial(ser, commands, exp, msg):
         if(commands[i].startswith("AT+CMGS")):
             ser.write(str.encode(msg))
             ser.write(str.encode(chr(26)))
+            time.sleep(1)
 
         ser.readline()
 

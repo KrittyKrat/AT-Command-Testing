@@ -24,10 +24,6 @@
           "expected": "OK"
         },
         {
-          "name":"AT+CLCC",
-          "expected": "OK"
-        },
-        {
           "name":"AT+CNUM",
           "expected": "OK"
         },
@@ -37,6 +33,18 @@
         },
         {
           "name":"AT+CBC",
+          "expected": "OK"
+        },
+        {
+          "name":"AT+CMGF=1",
+          "expected": "OK"
+        },
+                {
+          "name":"AT+CMGS=\"+37064577823\"",
+          "expected": "OK"
+        },
+        {
+          "name":"AT+CLCC",
           "expected": "OK"
         }
       ]
@@ -96,4 +104,3 @@
     }
   ]
 }
-

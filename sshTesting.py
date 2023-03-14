@@ -49,6 +49,13 @@ def testSSH(sc, commands, exp, msg):
         rez = shell.recv(9999).decode().split("\n")
         rez = list(filter(None, rez))
 
+        if(commands[i].startswith("AT+CMGS")):
+            shell.send(msg)
+            shell.send(chr(26))
+            time.sleep(1)
+            rez = shell.recv(9999).decode().split("\n")
+            rez = list(filter(None, rez))
+
         if rez[len(rez) - 1] == exp[i]:
             success.append(True)
             passedCommands += 1
