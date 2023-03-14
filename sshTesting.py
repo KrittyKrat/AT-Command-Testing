@@ -8,13 +8,13 @@ def connectSSH(sshVar):
     
     try:
         if sshVar == None:
-            ssh_client.connect(hostname='192.168.1.1',username='root',password='Admin123')
+            ssh_client.connect(hostname='192.168.1.1',username='root',password='Admin123', timeout=5)
         else:
-            ssh_client.connect(hostname=sshVar[0],username=sshVar[1],password=sshVar[2])
+            ssh_client.connect(hostname=sshVar[0],username=sshVar[1],password=sshVar[2], timeout=5)
     except:
         print("Wrong ssh variables")
         quit()
-        
+    
     executeCommand(ssh_client, "/etc/init.d/gsmd start")
     time.sleep(1)
     return ssh_client
@@ -44,7 +44,7 @@ def testSSH(sc, commands, exp, msg):
     totalCommands = len(commands)
 
     terminal.terminal("Current command", "Passed commands", "Failed commands", "All commands", False)
-    shell.settimeout(5)
+    shell.settimeout(2)
 
     for i in range(0, len(commands)):
         terminal.terminal(commands[i], passedCommands, failedCommands, totalCommands, True)
@@ -71,6 +71,7 @@ def testSSH(sc, commands, exp, msg):
             result.append(rez[len(rez) - 1])
             
         except:
+            executeCommand(sc, 'ls')
             if(exp[i] == "ERROR"):
                 success.append(True)
             else:
@@ -84,8 +85,8 @@ def testSSH(sc, commands, exp, msg):
 
 def executeCommand(sc, command):
     try:
-        stdin,stdout,stderr = sc.exec_command(command)
+        stdin,stdout,stderr = sc.exec_command(command, timeout=1)
         return stdin,stdout,stderr
     except:
-        print(command + " - Failed to execute")
+        print("\nConnection lost")
         quit()

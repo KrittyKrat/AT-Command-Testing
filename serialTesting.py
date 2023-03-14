@@ -44,7 +44,7 @@ def testSerial(ser, commands, exp, msg):
     terminal.terminal("Current command", "Passed commands", "Failed commands", "All commands", False)
 
     for i in range(0, len(commands)):
-        terminal.terminal(commands[i], passedCommands, failedCommands, totalCommands, True)
+        #terminal.terminal(commands[i], passedCommands, failedCommands, totalCommands, True)
         try:
             ser.write(str.encode(commands[i] + "\r"))
             time.sleep(0.1)
@@ -55,9 +55,11 @@ def testSerial(ser, commands, exp, msg):
                 time.sleep(1)
 
             ser.readline()
+            print(commands[i])
 
             while(True):
                 line = ser.readline().decode().split("\n")[0].strip()
+                print(line)
 
                 if line == "OK" or line == "ERROR":
                     result.append(line)
