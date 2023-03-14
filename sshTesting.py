@@ -49,7 +49,7 @@ def testSSH(sc, commands, exp, msg):
         rez = shell.recv(9999).decode().split("\n")
         rez = list(filter(None, rez))
 
-        if(commands[i].startswith("AT+CMGS")):
+        if(commands[i].startswith("AT+CMGS") or commands[i].startswith("AT+CMGW") or commands[i].startswith("AT+CMSS")):
             shell.send(msg)
             shell.send(chr(26))
             time.sleep(1)

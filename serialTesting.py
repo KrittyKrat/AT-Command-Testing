@@ -42,7 +42,7 @@ def testSerial(ser, commands, exp, msg):
         ser.write(str.encode(commands[i] + "\r"))
         time.sleep(0.1)
 
-        if(commands[i].startswith("AT+CMGS")):
+        if(commands[i].startswith("AT+CMGS") or commands[i].startswith("AT+CMGW") or commands[i].startswith("AT+CMSS")):
             ser.write(str.encode(msg))
             ser.write(str.encode(chr(26)))
             time.sleep(1)
