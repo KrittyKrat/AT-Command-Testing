@@ -7,9 +7,9 @@ class cl:
 
 def terminal(currentCommand, passedCommands, failedCommands, totalCommands, override):
     if override:
-        print(f"{currentCommand:15} | {cl.OKGREEN}{passedCommands:15}{cl.ENDC} | {cl.FAIL}{failedCommands:15}{cl.ENDC} | {totalCommands:12} |", end='\r')
+        print(f"{currentCommand:25} | {cl.OKGREEN}{passedCommands:15}{cl.ENDC} | {cl.FAIL}{failedCommands:15}{cl.ENDC} | {totalCommands:12} |", end='\r')
     else:
-        print(f"{currentCommand:15} | {cl.OKGREEN}{passedCommands:15}{cl.ENDC} | {cl.FAIL}{failedCommands:15}{cl.ENDC} | {totalCommands:12} | \r")
+        print(f"{currentCommand:25} | {cl.OKGREEN}{passedCommands:15}{cl.ENDC} | {cl.FAIL}{failedCommands:15}{cl.ENDC} | {totalCommands:12} | \r")
 
 def arguments():
     parser = argparse.ArgumentParser()

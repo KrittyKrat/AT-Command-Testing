@@ -22,6 +22,22 @@
         {
           "name":"AT&V",
           "expected": "OK"
+        },
+        {
+          "name":"AT+CLCC",
+          "expected": "OK"
+        },
+        {
+          "name":"AT+CNUM",
+          "expected": "OK"
+        },
+        {
+          "name":"AT+CMGD?",
+          "expected": "ERROR"
+        },
+        {
+          "name":"AT+CBC",
+          "expected": "OK"
         }
       ]
     },
@@ -41,7 +57,39 @@
           "expected": "OK"
         },
         {
-          "name":"AT+CMGS=”+37060183633”",
+          "name":"AT+CPAS",
+          "expected": "OK"
+        },
+        {
+          "name":"A/",
+          "expected": "OK"
+        },
+        {
+          "name":"AT&V",
+          "expected": "OK"
+        },
+        {
+          "name":"AT+CPBF=?",
+          "expected": "OK"
+        },
+        {
+          "name":"AT+CGREG?",
+          "expected": "OK"
+        },
+        {
+          "name":"AT+CLVL=1",
+          "expected": "OK"
+        },
+        {
+          "name":"AT+CCLK?",
+          "expected": "OK"
+        },
+        {
+          "name":"AT+CCWA?",
+          "expected": "ERROR"
+        },
+        {
+          "name":"AT+CMGS=\"+37063526337\"",
           "expected": "OK"
         }
       ]

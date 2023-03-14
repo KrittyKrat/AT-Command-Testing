@@ -38,7 +38,8 @@ def readCommandFile(routerName, jsonFile):
     
 def writeToCSV(commands, expected, result, success, routerName, routerInfo):
     fileName = "Results/" + routerName + "_" + datetime.now().strftime('%Y-%m-%d_%H:%M:%S') + ".csv"
-    file = open("Results/test.csv", 'w')
+    #file = open("Results/test.csv", 'w')
+    file = open(fileName, 'w')
     writer = csv.writer(file)
 
     writer.writerow(["Model: " + routerInfo.split("\n")[0], "Manufacturer: " + routerInfo.split("\n")[1]])

@@ -2,6 +2,17 @@
 
 #### Intro
 This is a a simple python program designed to test the functionality of AT commands in any **RUTXxx** and **RUT9xx** series routers, as well as the **TRM2xx** series modems.
+#### Prerequisites
+Before you begin these are the libraries you will need to install:
+```
+pip install paramiko
+pip install pyserial
+pip install argparse
+```
+You will also need to disable the ModemManager process for the serial connection to work:
+```
+sudo systemctl stop ModemManager.service
+```
 #### Program
 First you must connect your desired device to your computer either using an ethernet or serial cable. You can run the program using:
 ```

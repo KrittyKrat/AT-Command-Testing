@@ -1,11 +1,14 @@
 import serial
 import terminal
 import time
+import os
 
 def connectSerial():
+    #os.system("sudo systemctl stop ModemManager.service")
+    os.system("sudo chmod 666 /dev/ttyUSB3")
     ser = serial.Serial('/dev/ttyUSB3', 115200, timeout=5)
-    time.sleep(0.1)
 
+    time.sleep(0.1)
     return ser
 
 def deviceInfoSerial(ser):
@@ -27,8 +30,14 @@ def testSerial(ser, commands, exp):
     terminal.terminal("Current command", "Passed commands", "Failed commands", "All commands", False)
 
     for i in range(0, len(commands)):
+
         ser.write(str.encode(commands[i] + "\r"))
         time.sleep(0.1)
+
+        if(commands[i].startswith("AT+CMGS")):
+            ser.write(str.encode("TEST MESSAGE"))
+            ser.write(str.encode(chr(26)))
+
         ser.readline()
 
         while(True):
