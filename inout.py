@@ -10,11 +10,11 @@ def openJson(jsonFile):
         print("Failed to open the command file")
         quit()
 
-    return data
+    return file, data
 
 def readCommandFile(routerName, jsonFile):
 
-    data = openJson(jsonFile)
+    file, data = openJson(jsonFile)
     commands = []
     expected = []
     connected = False
@@ -37,16 +37,28 @@ def readCommandFile(routerName, jsonFile):
         print("No specified device found")
         quit()
 
+    file.close()
     return commands, expected
     
 def writeToCSV(commands, expected, result, success, routerName, routerInfo):
     fileName = "Results/" + routerName + "_" + datetime.now().strftime('%Y-%m-%d_%H:%M:%S') + ".csv"
     #file = open("Results/test.csv", 'w')
-    file = open(fileName, 'w')
-    writer = csv.writer(file)
+    
+    try:
+        file = open(fileName, 'w')
+        writer = csv.writer(file)
+    except:
+        print("Failed to open file")
+        quit()
 
-    writer.writerow(["Model: " + routerInfo.split("\n")[0], "Manufacturer: " + routerInfo.split("\n")[1]])
-    writer.writerow(["Command", "Expected", "Result", "Pass"])
+    try:
+        writer.writerow(["Model: " + routerInfo.split("\n")[0], "Manufacturer: " + routerInfo.split("\n")[1]])
+        writer.writerow(["Command", "Expected", "Result", "Pass"])
 
-    for i in range(0, len(commands)):
-        writer.writerow([commands[i], expected[i], result[i], success[i]])
+        for i in range(0, len(commands)):
+            writer.writerow([commands[i], expected[i], result[i], success[i]])
+    except:
+        print("Failed to write to .csv file")
+        quit()
+    
+    file.close()

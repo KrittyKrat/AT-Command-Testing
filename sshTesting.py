@@ -5,7 +5,7 @@ import terminal
 def connectSSH(sshVar):
     ssh_client = paramiko.SSHClient()
     ssh_client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
-
+    
     try:
         if sshVar == None:
             ssh_client.connect(hostname='192.168.1.1',username='root',password='Admin123')
@@ -14,17 +14,19 @@ def connectSSH(sshVar):
     except:
         print("Wrong ssh variables")
         quit()
-
+        
+    executeCommand(ssh_client, "/etc/init.d/gsmd start")
+    time.sleep(1)
     return ssh_client
 
 def deviceInfoSSH(sc):
-    stdin,stdout,stderr=sc.exec_command("uci get system.system.routername")
+    stdin, stdout, stderr = executeCommand(sc, "uci get system.system.routername")
     routerName = stdout.read().decode().split("\n")[0]
 
-    stdin,stdout,stderr=sc.exec_command("gsmctl -mw")
+    stdin, stdout, stderr = executeCommand(sc, "gsmctl -mw")
     routerInfo = stdout.read().decode()
 
-    sc.exec_command("/etc/init.d/gsmd stop")
+    executeCommand(sc, "/etc/init.d/gsmd stop")
 
     return routerName, routerInfo
 
@@ -42,31 +44,45 @@ def testSSH(sc, commands, exp, msg):
     totalCommands = len(commands)
 
     terminal.terminal("Current command", "Passed commands", "Failed commands", "All commands", False)
+    shell.settimeout(1)
 
     for i in range(0, len(commands)):
-        shell.send(commands[i] + "\n")
-        time.sleep(0.1)
-        rez = shell.recv(9999).decode().split("\n")
-        rez = list(filter(None, rez))
-
-        if(commands[i].startswith("AT+CMGS") or commands[i].startswith("AT+CMGW") or commands[i].startswith("AT+CMSS")):
-            shell.send(msg)
-            shell.send(chr(26))
-            time.sleep(1)
+        
+        try:
+            shell.send(commands[i] + "\n")
+            time.sleep(0.1)
             rez = shell.recv(9999).decode().split("\n")
             rez = list(filter(None, rez))
 
-        if rez[len(rez) - 1] == exp[i]:
-            success.append(True)
-            passedCommands += 1
-        else:
-            success.append(False)
-            failedCommands += 1
-        
-        result.append(rez[len(rez) - 1])
-        terminal.terminal(commands[i], passedCommands, failedCommands, totalCommands, True)
+            if(commands[i].startswith("AT+CMGS") or commands[i].startswith("AT+CMGW") or commands[i].startswith("AT+CMSS")):
+                shell.send(msg)
+                shell.send(chr(26))
+                time.sleep(1.5)
+                rez = shell.recv(9999).decode().split("\n")
+                rez = list(filter(None, rez))
+
+            if rez[len(rez) - 1] == exp[i]:
+                success.append(True)
+                passedCommands += 1
+            else:
+                success.append(False)
+                failedCommands += 1
+            
+            result.append(rez[len(rez) - 1])
+            terminal.terminal(commands[i], passedCommands, failedCommands, totalCommands, True)
+        except:
+            print("\nSsh connection lost")
+            quit()
 
     terminal.terminal("--------", passedCommands, failedCommands, totalCommands, False)
-    sc.exec_command("/etc/init.d/gsmd start")
+    executeCommand(sc, "/etc/init.d/gsmd start")
     sc.close()
     return result, success
+
+def executeCommand(sc, command):
+    try:
+        stdin,stdout,stderr = sc.exec_command(command)
+        return stdin,stdout,stderr
+    except:
+        print(command + " - Failed to execute")
+        quit()
