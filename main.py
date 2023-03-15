@@ -36,7 +36,8 @@ def main():
     elif connectionType == "serial":
         result, success = testing.testSerial(ser, commands, expected, msg)
 
-    outUtil.writeToCSV(commands, expected, result, success, routerName, routerInfo)
+    fileName = outUtil.writeToCSV(commands, expected, result, success, routerName, routerInfo)
+    outUtil.uploadToFTP(fileName)
 
 if __name__ == "__main__":
     main()

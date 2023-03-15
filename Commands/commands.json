@@ -29,14 +29,6 @@
           "expected": "OK"
         },
         {
-          "name":"not a command",
-          "expected": "OK"
-        },
-        {
-          "name":"neither is this",
-          "expected": "ERROR"
-        },
-        {
           "name":"AT+CMGD?",
           "expected": "ERROR"
         },

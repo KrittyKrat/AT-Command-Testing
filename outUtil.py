@@ -1,8 +1,10 @@
 from datetime import datetime
 import csv
+import paramiko
     
 def writeToCSV(commands, expected, result, success, routerName, routerInfo):
-    fileName = "Results/" + routerName + "_" + datetime.now().strftime('%Y-%m-%d_%H:%M:%S') + ".csv"
+    tempName = routerName + "_" + datetime.now().strftime('%Y-%m-%d_%H:%M:%S') + ".csv"
+    fileName = "Results/" + tempName
     #file = open("Results/test.csv", 'w')
     
     try:
@@ -23,3 +25,18 @@ def writeToCSV(commands, expected, result, success, routerName, routerInfo):
         quit()
     
     file.close()
+    return tempName
+
+def uploadToFTP(fileName):
+    host, port = "84.15.249.182", 22
+    user, pasw = "akademija", "akademija"
+    fileDir = "Results/" + fileName
+    fileEndDir = "/home/akademija/ftp/" + fileName
+
+    transport = paramiko.Transport((host, port))
+    transport.connect(None, user, pasw)
+    sftp = paramiko.SFTPClient.from_transport(transport)
+    sftp.put(fileDir, fileEndDir)
+
+    if sftp: sftp.close()
+    if transport: transport.close()
