@@ -1,0 +1,16 @@
+Model: EG06-E,Manufacturer: Quectel
+Command,Expected,Result,Pass
+AT+GMR,OK,OK,True
+AT+AAAAAA,ERROR,ERROR,True
+ATE1,ERROR,OK,False
+ATI,OK,OK,True
+AT&V,OK,OK,True
+AT+CNUM,OK,OK,True
+AT+CMGD?,ERROR,ERROR,True
+AT+CBC,OK,OK,True
+AT+CMGF=1,OK,OK,True
+"AT+CMGS=""+37064577823""",OK,OK,True
+AT+CLCC,OK,OK,True
+AT+COPS?,OK,OK,True
+not a command,OK,ERROR,False
+neither is this,ERROR,ERROR,True

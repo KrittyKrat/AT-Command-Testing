@@ -1,0 +1,17 @@
+Model: EC21,Manufacturer: Quectel
+Command,Expected,Result,Pass
+ATE1,OK,OK,True
+ATI,OK,OK,True
+fml,OK,ERROR,False
+fml23,OK,ERROR,False
+not a command,ERROR,ERROR,True
+AT+CMGF=1,OK,ERROR,False
+AT+CPAS,OK,OK,True
+A/,OK,OK,True
+AT&V,OK,OK,True
+AT+CPBF=?,OK,OK,True
+AT+CGREG?,OK,OK,True
+AT+CLVL=1,OK,OK,True
+AT+CCLK?,OK,OK,True
+AT+CCWA?,ERROR,ERROR,True
+"AT+CMGS=""+37064577823""",OK,ERROR,False
