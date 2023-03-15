@@ -2,6 +2,7 @@
   "devices": [
     {
       "router":"RUTX11",
+      "type": "ssh",
       "commands": [
         {
           "name":"AT+GMR",
@@ -28,6 +29,14 @@
           "expected": "OK"
         },
         {
+          "name":"not a command",
+          "expected": "OK"
+        },
+        {
+          "name":"neither is this",
+          "expected": "ERROR"
+        },
+        {
           "name":"AT+CMGD?",
           "expected": "ERROR"
         },
@@ -52,8 +61,8 @@
           "expected": "OK"
         },
         {
-          "name":"this is not a command",
-          "expected": "ERROR"
+          "name":"not a command",
+          "expected": "OK"
         },
         {
           "name":"neither is this",
@@ -63,6 +72,7 @@
     },
     {
       "router":"TRM240",
+      "type": "serial",
       "commands": [
         {
           "name":"ATE1",
@@ -71,6 +81,18 @@
         {
           "name":"ATI",
           "expected": "OK"
+        },
+        {
+          "name":"fml",
+          "expected": "OK"
+        },
+        {
+          "name":"fml23",
+          "expected": "OK"
+        },
+        {
+          "name":"not a command",
+          "expected": "ERROR"
         },
         {
           "name":"AT+CMGF=1",

@@ -29,6 +29,12 @@ def deviceInfoSerial(ser):
 
     line1 = ser.readline().decode().split("\n")[0].strip()
     line2 = ser.readline().decode().split("\n")[0].strip()
+
+    while(True):
+        l = ser.readline().decode().split("\n")[0].strip()
+        if l == "OK":
+            break
+
     routerInfo = line2 + "\n" + line1
 
     return routerInfo
@@ -39,45 +45,64 @@ def testSerial(ser, commands, exp, msg):
     passedCommands = 0
     failedCommands = 0
     totalCommands = len(commands)
-    ser.timeout = 5.0
+    ser.timeout = 1
 
     terminal.terminal("Current command", "Passed commands", "Failed commands", "All commands", False)
 
     for i in range(0, len(commands)):
-        #terminal.terminal(commands[i], passedCommands, failedCommands, totalCommands, True)
+        terminal.terminal(commands[i], passedCommands, failedCommands, totalCommands, True)
+
         try:
             ser.write(str.encode(commands[i] + "\r"))
+            ser.flush()
             time.sleep(0.1)
 
-            if(commands[i].startswith("AT+CMGS") or commands[i].startswith("AT+CMGW") or commands[i].startswith("AT+CMSS")):
-                ser.write(str.encode(msg))
-                ser.write(str.encode(chr(26)))
-                time.sleep(1)
+            checkMessage(commands[i], msg, ser)
+            result, success = findResult(ser, result, success, exp[i])
 
-            l = ser.readline()
-
-            while(True):
-                line = ser.readline().decode().split("\n")[0].strip()
-                print(line)
-
-                if line == "OK" or line == "ERROR":
-                    result.append(line)
-                    if line == exp[i]:
-                        success.append(True)
-                        passedCommands += 1
-                        break
-                    else:
-                        success.append(False)
-                        failedCommands += 1
-                        break
         except:
-            if(exp[i] == "ERROR"):
-                success.append(True)
-            else:
-                success.append(False)
-            result.append("ERROR")
+            print("\nConnection lost")
+            quit()
+        
+        passedCommands, failedCommands = determineScore(success[len(success) - 1], passedCommands, failedCommands)
 
-    
     ser.close()
     terminal.terminal("--------", passedCommands, failedCommands, totalCommands, False)
     return result, success
+
+def findSuccess(expected, gotten):
+    if gotten == expected:
+        return True
+    else:
+        return False
+    
+def determineScore(result, passedCommands, failedCommands):
+    if result:
+        passedCommands += 1
+    else:
+        failedCommands += 1
+    return passedCommands, failedCommands
+
+def findResult(ser, result, success, ex):
+    counter = 0
+    while(True):
+        counter = counter + 1
+        line = ser.readline().decode().strip()
+
+        if line == "OK" or line == "ERROR":
+            result.append(line)
+            success.append(findSuccess(line, ex))
+            break
+
+        if len(line) == 0 and counter <= 1:
+            result.append("ERROR")
+            success.append(findSuccess("ERROR", ex))
+            break
+
+    return result, success
+
+def checkMessage(command, msg, ser):
+    if(command.startswith("AT+CMGS") or command.startswith("AT+CMGW") or command.startswith("AT+CMSS")):
+        ser.write(str.encode(msg))
+        ser.write(str.encode(chr(26)))
+        time.sleep(1)

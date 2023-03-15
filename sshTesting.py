@@ -54,6 +54,7 @@ def testSSH(sc, commands, exp, msg):
             rez = shell.recv(9999).decode().split("\n")
             rez = list(filter(None, rez))
 
+            # Can't move this messages part to it's own method because that breaks the whole program for some reason
             if(commands[i].startswith("AT+CMGS") or commands[i].startswith("AT+CMGW") or commands[i].startswith("AT+CMSS")):
                 shell.send(msg)
                 shell.send(chr(26))
@@ -61,24 +62,15 @@ def testSSH(sc, commands, exp, msg):
                 rez = shell.recv(9999).decode().split("\n")
                 rez = list(filter(None, rez))
 
-            if rez[len(rez) - 1] == exp[i]:
-                success.append(True)
-                passedCommands += 1
-            else:
-                success.append(False)
-                failedCommands += 1
-            
+            success.append(findSuccess(rez[len(rez) - 1], exp[i]))
             result.append(rez[len(rez) - 1])
             
         except:
             executeCommand(sc, 'ls')
-            if(exp[i] == "ERROR"):
-                success.append(True)
-                passedCommands += 1
-            else:
-                success.append(False)
-                failedCommands += 1
+            success.append(findSuccess("ERROR", exp[i]))
             result.append("ERROR")
+
+        passedCommands, failedCommands = determineScore(success[len(success) - 1], passedCommands, failedCommands)
 
     terminal.terminal("--------", passedCommands, failedCommands, totalCommands, False)
     executeCommand(sc, "/etc/init.d/gsmd start")
@@ -92,3 +84,16 @@ def executeCommand(sc, command):
     except:
         print("\nConnection lost")
         quit()
+
+def findSuccess(expected, gotten):
+    if gotten == expected:
+        return True
+    else:
+        return False
+    
+def determineScore(result, passedCommands, failedCommands):
+    if result:
+        passedCommands += 1
+    else:
+        failedCommands += 1
+    return passedCommands, failedCommands

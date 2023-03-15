@@ -1,5 +1,6 @@
 import terminal
-import inout
+import inUtil
+import outUtil
 import importlib
 
 def main():
@@ -27,7 +28,7 @@ def main():
         ser = testing.connectSerial(serialVar)
         routerInfo = testing.deviceInfoSerial(ser)
     
-    commands, expected = inout.readCommandFile(routerName, jsonFile)
+    commands, expected = inUtil.readCommandFile(routerName, connectionType, jsonFile)
     print("Router being tested: " + routerName)
     
     if connectionType == "ssh":
@@ -35,7 +36,7 @@ def main():
     elif connectionType == "serial":
         result, success = testing.testSerial(ser, commands, expected, msg)
 
-    inout.writeToCSV(commands, expected, result, success, routerName, routerInfo)
+    outUtil.writeToCSV(commands, expected, result, success, routerName, routerInfo)
 
 if __name__ == "__main__":
     main()
