@@ -1,6 +1,8 @@
 import terminal
 import inUtil
 import outUtil
+import uploadEmail
+import uploadFTP
 import importlib
 
 def main():
@@ -40,8 +42,8 @@ def main():
 
     fileName = outUtil.writeToCSV(commands, expected, result, success, routerName, routerInfo)
     if email != None:
-        outUtil.sendEmail(email, routerName)
-    outUtil.uploadToFTP(fileName)
+        uploadEmail.sendEmail(email, routerName)
+    uploadFTP.uploadToFTP(fileName)
 
 if __name__ == "__main__":
     main()
