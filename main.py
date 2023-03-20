@@ -40,7 +40,7 @@ def main():
 
     fileName = outUtil.writeToCSV(commands, expected, result, success, routerName, routerInfo)
     if email != None:
-        outUtil.sendEmail(email)
+        outUtil.sendEmail(email, routerName)
     outUtil.uploadToFTP(fileName)
 
 if __name__ == "__main__":
