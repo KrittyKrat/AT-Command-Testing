@@ -1,8 +1,8 @@
 import paramiko
 
-def uploadToFTP(fileName):
-    host, port = "84.15.249.182", 22
-    user, pasw = "akademija", "akademija"
+def uploadToFTP(fileName, uploadData):
+    host, port = uploadData.ftpip, uploadData.ftpport
+    user, pasw = uploadData.ftpuser, uploadData.ftppas
     fileDir = "Results/" + fileName
     fileEndDir = "/home/akademija/ftp/" + fileName
 

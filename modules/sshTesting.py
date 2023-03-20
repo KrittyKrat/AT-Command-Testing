@@ -1,6 +1,6 @@
 import paramiko
 import time
-import terminal
+from modules import terminal
 
 def connectSSH(sshVar):
     ssh_client = paramiko.SSHClient()

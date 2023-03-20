@@ -30,6 +30,16 @@ While running the program you will be able to see live results like the command 
 The command file must be a .json and it is formated like this:
 ```
 {
+  "ftp":{
+    "ip":"88.20.240.180",
+    "port":"21",
+    "username":"admin",
+    "password":"adminpas"
+  },
+  "email":{
+    "email":"senderMail@gmail.com",
+    "password":"pass123"
+  },
   "devices": [
     {
       "router":"RUTX11",

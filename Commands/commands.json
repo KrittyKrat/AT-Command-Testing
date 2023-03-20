@@ -1,4 +1,14 @@
 {
+  "ftp":{
+    "ip":"84.15.249.182",
+    "port":"22",
+    "username":"akademija",
+    "password":"akademija"
+  },
+  "email":{
+    "email":"teltonikaEmailTest@gmail.com",
+    "password":"ahlyogorfmcjivyl"
+  },
   "devices": [
     {
       "router":"RUTX11",

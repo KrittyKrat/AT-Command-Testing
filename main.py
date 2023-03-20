@@ -1,8 +1,8 @@
-import terminal
-import inUtil
-import outUtil
-import uploadEmail
-import uploadFTP
+from modules import terminal
+from modules import inUtil
+from modules import outUtil
+from modules import uploadEmail
+from modules import uploadFTP
 import importlib
 
 def main():
@@ -23,7 +23,7 @@ def main():
         print("Bad connection type")
         quit()
 
-    testing = importlib.import_module(connectionType + "Testing")
+    testing = importlib.import_module("modules." + connectionType + "Testing")
 
     if connectionType == "ssh":
         sc = testing.connectSSH(sshVar)
@@ -32,7 +32,7 @@ def main():
         ser = testing.connectSerial(serialVar)
         routerInfo = testing.deviceInfoSerial(ser)
     
-    commands, expected = inUtil.readCommandFile(routerName, connectionType, jsonFile)
+    commands, expected, uploadData = inUtil.readCommandFile(routerName, connectionType, jsonFile)
     print("Router being tested: " + routerName)
     
     if connectionType == "ssh":
@@ -42,8 +42,8 @@ def main():
 
     fileName = outUtil.writeToCSV(commands, expected, result, success, routerName, routerInfo)
     if email != None:
-        uploadEmail.sendEmail(email, routerName)
-    uploadFTP.uploadToFTP(fileName)
+        uploadEmail.sendEmail(email, routerName, uploadData)
+    uploadFTP.uploadToFTP(fileName, uploadData)
 
 if __name__ == "__main__":
     main()

@@ -1,4 +1,5 @@
 import json
+from modules import upload
 
 def openJson(jsonFile):
     try:
@@ -18,6 +19,7 @@ def readCommandFile(routerName, connectionType, jsonFile):
     connected = False
 
     try:
+        uploadData = upload.Upload(data["ftp"]["ip"], data["ftp"]["port"], data["ftp"]["username"], data["ftp"]["password"], data["email"]["email"], data["email"]["password"])
         for d in data['devices']:
             if d['router'] == routerName:
                 if connectionType != d['type']:
@@ -35,4 +37,4 @@ def readCommandFile(routerName, connectionType, jsonFile):
         quit()
 
     file.close()
-    return commands, expected
+    return commands, expected, uploadData

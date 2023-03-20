@@ -1,5 +1,5 @@
 import serial
-import terminal
+from modules import terminal
 import time
 import os
 
