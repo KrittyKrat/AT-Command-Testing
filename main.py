@@ -11,6 +11,8 @@ def main():
     serialVar = args.serial
     jsonFile = args.file
     msg = args.msg
+    email = args.email
+    
     if msg == None:
         msg = "Test"
     routerNameTest = ""
@@ -37,6 +39,8 @@ def main():
         result, success = testing.testSerial(ser, commands, expected, msg)
 
     fileName = outUtil.writeToCSV(commands, expected, result, success, routerName, routerInfo)
+    if email != None:
+        outUtil.sendEmail(email)
     outUtil.uploadToFTP(fileName)
 
 if __name__ == "__main__":

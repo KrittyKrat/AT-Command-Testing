@@ -1,6 +1,8 @@
 from datetime import datetime
 import csv
 import paramiko
+from email.mime.text import MIMEText
+import smtplib
     
 def writeToCSV(commands, expected, result, success, routerName, routerInfo):
     tempName = routerName + "_" + datetime.now().strftime('%Y-%m-%d_%H:%M:%S') + ".csv"
@@ -49,3 +51,14 @@ def uploadToFTP(fileName):
 
     if sftp: sftp.close()
     if transport: transport.close()
+
+def sendEmail(email):
+    msg = MIMEText("This is a test")
+    msg['Subject'] = "Test"
+    msg['From'] = "teltonikaEmailTest@gmail.com"
+    msg['To'] = email
+    smtp_server = smtplib.SMTP_SSL('smtp.gmail.com', 465)
+    smtp_server.login("teltonikaEmailTest@gmail.com", "ahlyogorfmcjivyl")
+    smtp_server.sendmail("teltonikaEmailTest@gmail.com", email, msg.as_string())
+    smtp_server.quit()
+    print("sent")

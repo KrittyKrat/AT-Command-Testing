@@ -19,5 +19,6 @@ def arguments():
     parser.add_argument('--ssh', type=str, help='Ssh variables (ip, username, password)', nargs=3, required=False)
     parser.add_argument('--serial', type=str, help='Custom serial port (/dev/ttyUSBx, baudrate)', nargs=2, required=False)
     parser.add_argument('--msg', type=str, help='Custom message to test send message at command', required=False)
+    parser.add_argument('--email', type=str, help='Email to send the test finished message to', required=False)
     args = parser.parse_args()
     return args
