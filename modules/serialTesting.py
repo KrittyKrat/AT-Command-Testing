@@ -1,5 +1,5 @@
 import serial
-from modules import terminal
+from modules import terminal_utility
 import time
 import os
 
@@ -47,10 +47,10 @@ def testSerial(ser, commands, exp, msg):
     totalCommands = len(commands)
     ser.timeout = 1
 
-    terminal.terminal("Current command", "Passed commands", "Failed commands", "All commands", False)
+    terminal_utility.terminal("Current command", "Passed commands", "Failed commands", "All commands", False)
 
     for i in range(0, len(commands)):
-        terminal.terminal(commands[i], passedCommands, failedCommands, totalCommands, True)
+        terminal_utility.terminal(commands[i], passedCommands, failedCommands, totalCommands, True)
 
         try:
             ser.write(str.encode(commands[i] + "\r"))
@@ -67,7 +67,7 @@ def testSerial(ser, commands, exp, msg):
         passedCommands, failedCommands = determineScore(success[len(success) - 1], passedCommands, failedCommands)
 
     ser.close()
-    terminal.terminal("--------", passedCommands, failedCommands, totalCommands, False)
+    terminal_utility.terminal("--------", passedCommands, failedCommands, totalCommands, False)
     return result, success
 
 def findSuccess(expected, gotten):

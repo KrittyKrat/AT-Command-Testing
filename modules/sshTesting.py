@@ -1,6 +1,6 @@
 import paramiko
 import time
-from modules import terminal
+from modules import terminal_utility
 
 def connectSSH(sshVar):
     ssh_client = paramiko.SSHClient()
@@ -43,11 +43,11 @@ def testSSH(sc, commands, exp, msg):
     failedCommands = 0
     totalCommands = len(commands)
 
-    terminal.terminal("Current command", "Passed commands", "Failed commands", "All commands", False)
+    terminal_utility.terminal("Current command", "Passed commands", "Failed commands", "All commands", False)
     shell.settimeout(2)
 
     for i in range(0, len(commands)):
-        terminal.terminal(commands[i], passedCommands, failedCommands, totalCommands, True)
+        terminal_utility.terminal(commands[i], passedCommands, failedCommands, totalCommands, True)
         try:
             shell.send(commands[i] + "\n")
             time.sleep(0.1)
@@ -72,7 +72,7 @@ def testSSH(sc, commands, exp, msg):
 
         passedCommands, failedCommands = determineScore(success[len(success) - 1], passedCommands, failedCommands)
 
-    terminal.terminal("--------", passedCommands, failedCommands, totalCommands, False)
+    terminal_utility.terminal("--------", passedCommands, failedCommands, totalCommands, False)
     executeCommand(sc, "/etc/init.d/gsmd start")
     sc.close()
     return result, success
